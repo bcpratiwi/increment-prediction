@@ -3,7 +3,7 @@
 rm(list=ls())
 set.seed(1234)
 R2 <- c(.05,.15,.20,.30)
-n <- 100
+n <- 1000
 ntest <- 1000
 b <-c(sqrt(.10), sqrt(.10))
 mytcks = seq(0,1,length.out = 91)
