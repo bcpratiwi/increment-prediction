@@ -9,13 +9,9 @@ find.sigma <- function(corr=1, sigma1=1, sigma2=1 ){
 }
 
 cor_xx = .7
-b <- c(sqrt(.1), sqrt(.1))
-X <- mvrnorm(n, c(0,0), Sigma = find.sigma(cor_xx))
-y <- X%*%b + rnorm(n, sd = sqrt(1-sum(b^2)))
-
 n <- 1000
 ntest <- 1000
-b <-c(sqrt(.10), sqrt(.10))
+b <-c(sqrt(.05), sqrt(.01))
 mytcks = seq(0,1,length.out = 91)
 mytcks_rev = seq(1,0,length.out = 91)
 rho <- seq(1,.1,length.out = 91)
@@ -51,19 +47,22 @@ for( i in 1:R){
 }
 
 
+# plot including points for prediction with both x1 and x2
 plot(mytcks, colMeans(err_full),'p', pch = ".", 
      cex = 5, col = "red",xlim = c(0,1), 
      ylim = c(min(c(colMeans(err_full), colMeans(err))) - .01 , 
               max(c(colMeans(err_full), colMeans(err))) + .01),
      xaxt = "n" , xlab = "Reliability x1", ylab = "Prediction error")
 abline(v = mytcks[which.min(colMeans(err_full))], col = 'red')
-#points(mytcks,colMeans(err), pch = ".", cex = 5, col = "red")
+
+# axes labels
 axis(1, at = mytcks[seq(1,91,by = 10)], labels = rho[seq(1,91,by = 10)], las = 2)
 axis(3, at = mytcks[seq(1,91,by = 10)], labels = rho_rev[seq(1,91, by = 10)], las =2)
 mtext("Reliability x2", side=3, line = 3)
 mtext(paste("Rx1y = ", b[1]^2,"", "Rx2y = ", b[2]^2), side = 4)
+
+# points for prediction with only x1
 points(mytcks, colMeans(err), col = "green", pch = ".", cex=5)
 abline(v = mytcks[which.min(colMeans(err))], col = 'green')
-
 
 
