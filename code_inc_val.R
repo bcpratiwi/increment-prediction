@@ -2,7 +2,7 @@
 
 rm(list=ls())
 set.seed(1234)
-R2 <- c(.05,.15,.20,.30)
+#R2 <- c(.05,.15,.20,.30)
 n <- 1000
 ntest <- 1000
 b <-c(sqrt(.10), sqrt(.10))
@@ -13,7 +13,7 @@ rho_rev <- seq(.1,1, length.out = 91)
 measerror <- (1-rho)/rho
 mease_err_diff <- cbind(measerror, sort(measerror, decreasing = T))
 
-R = 5000
+R = 1000
 
 fit_full <- array(0, dim = c(R, length(measerror), ntest))
 fit <- array(0, dim = c(R,length(measerror),ntest))
@@ -41,17 +41,21 @@ for( i in 1:R){
 }
 
 
+# plot including points for prediction with both x1 and x2
 plot(mytcks, colMeans(err_full),'p', pch = ".", 
      cex = 5, col = "red",xlim = c(0,1), 
      ylim = c(min(c(colMeans(err_full), colMeans(err))) - .01 , 
               max(c(colMeans(err_full), colMeans(err))) + .01),
      xaxt = "n" , xlab = "Reliability x1", ylab = "Prediction error")
 abline(v = mytcks[which.min(colMeans(err_full))], col = 'red')
-#points(mytcks,colMeans(err), pch = ".", cex = 5, col = "red")
+
+# axes labels
 axis(1, at = mytcks[seq(1,91,by = 10)], labels = rho[seq(1,91,by = 10)], las = 2)
 axis(3, at = mytcks[seq(1,91,by = 10)], labels = rho_rev[seq(1,91, by = 10)], las =2)
 mtext("Reliability x2", side=3, line = 3)
 mtext(paste("Rx1y = ", b[1]^2,"", "Rx2y = ", b[2]^2), side = 4)
+
+# points for prediction with only x1
 points(mytcks, colMeans(err), col = "green", pch = ".", cex=5)
 abline(v = mytcks[which.min(colMeans(err))], col = 'green')
 
